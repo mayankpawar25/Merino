@@ -337,15 +337,6 @@ $(document).ready(function () {
     return mobileRegex.test(numericMobileNumber);
   }
 
-  // Function to handle next step button click
-  $(".next-step").click(function () {
-    if (validateStep1()) {
-      $(".progress-bar").css("width", "50%");
-      $(".step-1").hide();
-      $(".step-2").show();
-    }
-  });
-
   function showValidationErrorsStep1() {
     // Add is-invalid class to the fields that failed validation
     // $("#name, #email, #mobile_number, #date, #tshirt_size, #meal_preference, #adhaar_number").addClass("is-invalid");
