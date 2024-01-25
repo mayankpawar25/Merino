@@ -528,7 +528,7 @@ include('./layout/head.php');
       </div>
 
     </section><!-- End Gallery Section -->
-    */?>
+    */ ?>
     <!-- ======= Supporters Section ======= -->
     <?php /*
     <section id="supporters" class="section-with-bg">
@@ -593,7 +593,7 @@ include('./layout/head.php');
       </div>
 
     </section><!-- End Sponsors Section -->
-    */?>
+    */ ?>
     <!-- =======  F.A.Q Section ======= -->
     <section id="faq">
 
@@ -823,8 +823,8 @@ include('./layout/head.php');
           <div class="modal-body">
             <form method="POST" action="#">
               <div class="form-group">
-                <input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Mobile Number" required>
-              </div>            
+                <input type="text" name="mobile_number" class="form-control" id="mobile_number_login" placeholder="Mobile Number" required>
+              </div>
               <div class="text-center mt-3">
                 <button type="submit" class="btn">Verify</button>
               </div>
@@ -906,66 +906,98 @@ include('./layout/head.php');
     <section id="registration" class="section-with-bg">
 
       <div class="container" data-aos="fade-up">
-
         <div class="section-header">
           <h2>Registeration</h2>
-          <p>Register now</p>
         </div>
         <div class="form">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-            <div class="row">
-              <div class="form-group col-md-6">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-              </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-              </div>
+          <div id="container" class="container mt-5">
+            <div class="progress px-1" style="height: 3px;">
+              <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <div class="row mt-3">
-              <div class="form-group col-md-6">
-                <input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Mobile Number" required>
-              </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <div class="input-group date" id="datepicker">
-                  <input type="text" class="form-control" id="date" placeholder="Date of Birth" />
-                  <span class="input-group-append">
-                    <span class="input-group-text bg-light d-block">
-                      <i class="fa fa-calendar"></i>
-                    </span>
-                  </span>
+            <div class="step-container d-flex justify-content-between">
+              <div class="step-circle" onclick="displayStep(1)">1</div>
+              <div class="step-circle" onclick="displayStep(2)">2</div>
+            </div>
+            <form id="multi-step-form" action="forms/contact.php" method="post">
+              <div class="step step-1">
+                <!-- Step 1 form fields here -->
+                <h3>Register now</h3>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  </div>
+                  <div class="form-group col-md-6 mt-3 mt-md-0">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="form-group col-md-6">
+                    <input type="text" name="mobile_number" class="form-control" id="mobile_number" placeholder="Mobile Number" required>
+                  </div>
+                  <div class="form-group col-md-6 mt-3 mt-md-0">
+                    <div class="input-group date" id="datepicker">
+                      <input type="text" class="form-control" id="date" placeholder="Date of Birth" />
+                      <span class="input-group-append">
+                        <span class="input-group-text bg-light d-block">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="form-group col-md-6">
+                    <select class="form-control" name="tshirt_size" id="tshirt_size" required>
+                      <option value="">T-Shirt Size</option>
+                      <option>XS</option>
+                      <option>S</option>
+                      <option>M</option>
+                      <option>L</option>
+                      <option>XL</option>
+                      <option>XXL</option>
+                      <option>XXXL</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6 mt-3 mt-md-0">
+                    <select class="form-control" name="meal_preference" id="meal_preference" required>
+                      <option value="">Meal Preference</option>
+                      <option>Veg</option>
+                      <option>Non Veg</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6 mt-3 mt-md-0">
+                    <input type="text" class="form-control" name="adhaar_number" id="adhaar_number" placeholder="Adhaar Number" required>
+                  </div>
+                </div>
+                <div class="float-end">
+                  <button type="button" class="btn btn-primary next-step mt-3 mb-3">Next</button>
                 </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="form-group col-md-6">
-                <select class="form-control" name="tshirt_size" id="tshirt_size" required>
-                  <option value="">T-Shirt Size</option>
-                  <option>XS</option>
-                  <option>S</option>
-                  <option>M</option>
-                  <option>L</option>
-                  <option>XL</option>
-                  <option>XXL</option>
-                  <option>XXXL</option>
-                </select>
+              <div class="step step-2">
+                <!-- Step 2 form fields here -->
+                <h3>OTP Verification</h3>
+                <div class="d-flex justify-content-center align-items-center">
+                  <div class="position-relative">
+                    <div class="p-2 text-center">
+                      <h6>Please enter the one time password <br> to verify your account</h6>
+                      <div> <span>A code has been sent to </span> <small id="email-placement">*******9897</small> </div>
+                      <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" /> <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" /> <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" /> <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" /> <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" /> <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" /> </div>
+                    </div>
+                    <div class="">
+                      <div class="content d-flex justify-content-center align-items-center"> <span>Didn't get the code</span> <a href="#" class="text-decoration-none ms-3">Resend(1/3)</a> </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="float-end">
+                  <button type="button" class="btn btn-primary prev-step">Previous</button>
+                  <button class="btn btn-danger mt-3 mb-3" type="submit">Validate</button>
+                </div>
               </div>
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <select class="form-control" name="meal_preference" id="meal_preference" required>
-                  <option value="">Meal Preference</option>
-                  <option>Veg</option>
-                  <option>Non Veg</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-md-6 mt-3 mt-md-0">
-                <input type="text" class="form-control" name="adhaar_number" id="adhaar_number" placeholder="Adhaar Number" required>
-              </div>
-            </div>
-            <div class="text-center"><button class="btn btn-primary buy-tickets mt-3 mb-3" type="submit">Register</button></div>
-          </form>
+            </form>
+          </div>
         </div>
-
       </div>
     </section>
 

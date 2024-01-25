@@ -5,7 +5,7 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -114,7 +114,7 @@
   /**
    * Mobile nav toggle
    */
-  on('click', '.mobile-nav-toggle', function(e) {
+  on('click', '.mobile-nav-toggle', function (e) {
     select('#navbar').classList.toggle('navbar-mobile')
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
@@ -123,7 +123,7 @@
   /**
    * Mobile nav dropdowns activate
    */
-  on('click', '.navbar .dropdown > a', function(e) {
+  on('click', '.navbar .dropdown > a', function (e) {
     if (select('#navbar').classList.contains('navbar-mobile')) {
       e.preventDefault()
       this.nextElementSibling.classList.toggle('dropdown-active')
@@ -133,7 +133,7 @@
   /**
    * Scrool with ofset on links with a class name .scrollto
    */
-  on('click', '.scrollto', function(e) {
+  on('click', '.scrollto', function (e) {
     if (select(this.hash)) {
       e.preventDefault()
 
@@ -213,7 +213,7 @@
   /**
    * Buy tickets select the ticket type on click
    */
-  on('show.bs.modal', '#buy-ticket-modal', function(event) {
+  on('show.bs.modal', '#buy-ticket-modal', function (event) {
     select('#buy-ticket-modal #ticket-type').value = event.relatedTarget.getAttribute('data-ticket-type')
   })
 
@@ -230,9 +230,203 @@
   });
 
 })()
-$(function(){
+$(function () {
   $('#datepicker').length && $('#datepicker').datepicker({
-      format: 'dd/mm/yyyy'  // Set the desired date format
+    format: 'dd/mm/yyyy'  // Set the desired date format
   });
-  
+
 });
+
+var currentStep = 1;
+var updateProgressBar;
+
+function displayStep(stepNumber) {
+  if (stepNumber >= 1 && stepNumber <= 3) {
+    $(".step-" + currentStep).hide();
+    $(".step-" + stepNumber).show();
+    currentStep = stepNumber;
+    updateProgressBar();
+  }
+}
+
+$(document).ready(function () {
+  // Registeration Validations
+  // Function to validate the step-1 form fields
+  function validateStep1() {
+    var isValid = true;
+
+    // Validate name
+    var name = $("#name").val();
+    if (name.trim() == "") {
+      isValid = false;
+      $("#name").addClass("is-invalid");
+    } else {
+      $("#name").removeClass("is-invalid");
+    }
+
+    // Validate email
+    var email = $("#email").val();
+    if (email.trim() == "" || !isValidEmail(email)) {
+      isValid = false;
+      $("#email").addClass("is-invalid");
+    } else {
+      $("#email").removeClass("is-invalid");
+    }
+
+    // Validate mobile number
+    var mobileNumber = $("#mobile_number").val();
+    if (mobileNumber.trim() == "" || !validateMobileNumber(mobileNumber)) {
+      isValid = false;
+      $("#mobile_number").addClass("is-invalid");
+    } else {
+      $("#mobile_number").removeClass("is-invalid");
+    }
+
+    // Validate date of birth
+    var dateOfBirth = $("#date").val();
+    if (dateOfBirth.trim() == "") {
+      isValid = false;
+      $("#date").addClass("is-invalid");
+    } else {
+      $("#date").removeClass("is-invalid");
+    }
+
+    // Validate t-shirt size
+    var tshirtSize = $("#tshirt_size").val();
+    if (tshirtSize.trim() == "") {
+      isValid = false;
+      $("#tshirt_size").addClass("is-invalid");
+    } else {
+      $("#tshirt_size").removeClass("is-invalid");
+    }
+
+    // Validate meal preference
+    var mealPreference = $("#meal_preference").val();
+    if (mealPreference.trim() == "") {
+      isValid = false;
+      $("#meal_preference").addClass("is-invalid");
+    } else {
+      $("#meal_preference").removeClass("is-invalid");
+    }
+
+    // Validate Aadhaar number
+    var adhaarNumber = $("#adhaar_number").val();
+    if (adhaarNumber.trim() == "") {
+      isValid = false;
+      $("#adhaar_number").addClass("is-invalid");
+    } else {
+      $("#adhaar_number").removeClass("is-invalid");
+    }
+
+    return isValid;
+  }
+
+  // Function to validate email format
+  function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function validateMobileNumber(mobileNumber) {
+    // Remove non-numeric characters
+    var numericMobileNumber = mobileNumber.replace(/\D/g, '');
+  
+    // Regular expression to validate mobile number with optional country code
+    var mobileRegex = /^(\+\d{1,3})?(\d{10})$/;
+  
+    return mobileRegex.test(numericMobileNumber);
+  }
+
+  // Function to handle next step button click
+  $(".next-step").click(function () {
+    if (validateStep1()) {
+      $(".progress-bar").css("width", "50%");
+      $(".step-1").hide();
+      $(".step-2").show();
+    }
+  });
+
+  function showValidationErrorsStep1() {
+    // Add is-invalid class to the fields that failed validation
+    // $("#name, #email, #mobile_number, #date, #tshirt_size, #meal_preference, #adhaar_number").addClass("is-invalid");
+
+    // Optional: Display an error message to the user
+    // $(".validation-error-message").text("Please fill in all required fields.").show();
+  }
+
+  // Form submission handler
+  $("#multi-step-form").submit(function (event) {
+    if (!validateStep1()) {
+      showValidationErrorsStep1();
+      event.preventDefault(); // Prevent form submission if step-1 is not valid
+    }
+  });
+
+  $('#multi-step-form').find('.step').slice(1).hide();
+
+  $(".next-step").click(function () {
+    if (currentStep < 2) {
+      if (currentStep === 1) {
+        console.log(validateStep1())
+        if (!validateStep1()) {
+          // Validation failed, show error classes and stop the stepper
+          showValidationErrorsStep1();
+          return;
+        }
+      }
+      $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+      currentStep++;
+      setTimeout(function () {
+        $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+        $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
+        updateProgressBar();
+      }, 500);
+    }
+  });
+
+  $(".prev-step").click(function () {
+    if (currentStep > 1) {
+      $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
+      currentStep--;
+      setTimeout(function () {
+        $(".step").removeClass("animate__animated animate__fadeOutRight").hide();
+        $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInLeft");
+        updateProgressBar();
+      }, 500);
+    }
+  });
+
+  updateProgressBar = function () {
+    var progressPercentage = (currentStep - 1) * 100;
+    $(".progress-bar").css("width", progressPercentage + "%");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  function OTPInput() {
+    const inputs = document.querySelectorAll('#otp > *[id]');
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].addEventListener('keydown', function (event) {
+        if (event.key === "Backspace") {
+          inputs[i].value = ''; if (i !== 0) inputs[i - 1].focus();
+        }
+        else {
+          if (i === inputs.length - 1 && inputs[i].value !== '') {
+            return true;
+          } else if (event.keyCode > 47 && event.keyCode < 58) {
+            inputs[i].value = event.key;
+            if (i !== inputs.length - 1)
+              inputs[i + 1].focus(); event.preventDefault();
+          }
+          else if (event.keyCode > 64 && event.keyCode < 91) {
+            inputs[i].value = String.fromCharCode(event.keyCode);
+            if (i !== inputs.length - 1)
+              inputs[i + 1].focus(); event.preventDefault();
+          }
+        }
+      });
+    }
+  } 
+  OTPInput();
+});
+
